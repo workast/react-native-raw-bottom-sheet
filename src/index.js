@@ -92,6 +92,7 @@ class RBSheet extends Component {
       animationType,
       closeOnDragDown,
       closeOnPressMask,
+      onCloseOnPressMask,
       closeOnPressBack,
       children,
       customStyles,
@@ -109,7 +110,10 @@ class RBSheet extends Component {
         visible={modalVisible}
         supportedOrientations={SUPPORTED_ORIENTATIONS}
         onRequestClose={() => {
-          if (closeOnPressBack) this.setModalVisible(false);
+          if (closeOnPressBack) {
+            this.setModalVisible(false);
+            this.close();
+          }
         }}
       >
         <KeyboardAvoidingView
@@ -120,7 +124,7 @@ class RBSheet extends Component {
           <TouchableOpacity
             style={styles.mask}
             activeOpacity={1}
-            onPress={() => (closeOnPressMask ? this.close() : null)}
+            onPress={() => (closeOnPressMask ? this.close() : onCloseOnPressMask())}
           />
           <Animated.View
             {...this.panResponder.panHandlers}
@@ -152,7 +156,8 @@ RBSheet.propTypes = {
   customStyles: PropTypes.objectOf(PropTypes.object),
   onClose: PropTypes.func,
   onOpen: PropTypes.func,
-  children: PropTypes.node
+  children: PropTypes.node,
+  onCloseOnPressMask: PropTypes.func
 };
 
 RBSheet.defaultProps = {
@@ -168,6 +173,7 @@ RBSheet.defaultProps = {
   customStyles: {},
   onClose: null,
   onOpen: null,
+  onCloseOnPressMask: null,
   children: <View />
 };
 
