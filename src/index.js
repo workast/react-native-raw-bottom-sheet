@@ -110,10 +110,10 @@ class RBSheet extends Component {
         visible={modalVisible}
         supportedOrientations={SUPPORTED_ORIENTATIONS}
         onRequestClose={() => {
-          if (closeOnPressBack) {
-            this.setModalVisible(false);
+          if (closeOnPressMask) {
             this.close();
           }
+          if (typeof onCloseOnPressMask === "function") onCloseOnPressMask();
         }}
       >
         <KeyboardAvoidingView
